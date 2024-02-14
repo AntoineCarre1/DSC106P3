@@ -12,6 +12,8 @@
        Data = d3.csvParse(csv, d3.autoType)
    
        console.log(Data);
+       Data = Data.map(row => row.map(value => Math.round(value * 100) / 100));
+       console.log(Data);
        console.log(Data['1960']);
    
    });
