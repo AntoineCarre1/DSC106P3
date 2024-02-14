@@ -12,11 +12,15 @@
        Data = d3.csvParse(csv, d3.autoType)
    
        console.log(Data);
-       Data = Data.map(row => row.map(value => Math.round(value * 100) / 100));
-       console.log(Data);
-       console.log(Data['1960']);
-   
-   });
+       Data = Data.map(row => {
+        console.log("Row before rounding:", row);
+        const roundedRow = row.map(value => Math.round(value * 100) / 100);
+        console.log("Row after rounding:", roundedRow);
+        return roundedRow;
+        });
+    console.log("Data after rounding:", Data);
+    });
+
 </script>
 <h1>Welcome to SvelteKit</h1>
 <p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
