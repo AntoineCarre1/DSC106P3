@@ -1,6 +1,7 @@
 <script>
+    import {onMount} from 'svelte'
     let tempData = [];
-   
+
    onMount(async () => {
    
        const res = await fetch('temperatures.csv'); 
