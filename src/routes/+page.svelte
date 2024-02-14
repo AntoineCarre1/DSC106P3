@@ -1,16 +1,16 @@
 <script>
     import {onMount} from 'svelte'
-    let tempData = [];
+    let Data = [];
 
    onMount(async () => {
    
-       const res = await fetch('temperatures.csv'); 
+       const res = await fetch('static/Data/static/Data/API_SP.DYN.LE00.IN_DS2_en_csv_v2_46.csv'); 
    
        const csv = await res.text();
    
-       tempData = d3.csvParse(csv, d3.autoType)
+       Data = d3.csvParse(csv, d3.autoType)
    
-       console.log(tempData);
+       console.log(Data);
    
    });
 </script>
