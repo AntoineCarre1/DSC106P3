@@ -12,6 +12,7 @@
        Data = d3.csvParse(csv, d3.autoType)
    
        console.log(Data);
+       console.log(Data['1960']);
    
    });
 </script>
