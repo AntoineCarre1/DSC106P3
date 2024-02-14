@@ -1,10 +1,11 @@
 <script>
-    import {onMount} from 'svelte'
+    import {onMount} from 'svelte';
+    import * as d3 from 'd3';
     let Data = [];
 
    onMount(async () => {
    
-       const res = await fetch('API_SP.DYN.LE00.IN_DS2_en_csv_v2_46.csv'); 
+       const res = await fetch('API_SP.DYN.LE00.IN_DS2_en_csv_v2_46.csv');
    
        const csv = await res.text();
    
