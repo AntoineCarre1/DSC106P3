@@ -1,39 +1,26 @@
 <script>
     import {onMount} from 'svelte';
     import * as d3 from 'd3';
-    import { csvParseRows } from 'd3-dsv';
+    import { onMount } from 'svelte';
 
-    let Data = [];
+let Data = [];
 
-   onMount(async () => {
-   
-       const res = await fetch('API_SP.DYN.LE00.IN_DS2_en_csv_v2_46.csv');
-   
-       const csv = await res.text();
-   
-       const parsedData = csvParseRows(csv, row => {
-        return row.split(';');
-    });
-   
-       console.log("Initial Data:", parsedData);
+onMount(async () => {
+    const res = await fetch('static/Data/API_SP.DYN.LE00.IN_DS2_en_csv_v2_46.csv');
+    const csv = await res.text();
 
-    // Convert each row from an object to an array
-    for (let i = 0; i < parsedData.length; i++) {
-        const row = parsedData[i];
-        const newRow = {};
-        console.log(row);
-        for (const key in row) {
-            const value = row[key];
-            console.log(value);
-            newRow[key] = isNaN(value) ? value : Math.round(value * 100) / 100;
-        }
-        Data.push(newRow);
+    // Split the CSV data into rows using '\n' as the row delimiter
+    const rows = csv.split('\n');
+
+    // Parse each row into an array of values using ';' as the column delimiter
+    for (let i = 0; i < rows.length; i++) {
+        const row = rows[i].split(';'); // Use ';' as the column delimiter
+        Data.push(row);
     }
 
-    console.log("Data after rounding:", Data);
+    console.log("Data:", Data);
 });
 
-console.log("Initial Data:", Data);
 </script>
 <h1>Welcome to SvelteKit</h1>
 <p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
