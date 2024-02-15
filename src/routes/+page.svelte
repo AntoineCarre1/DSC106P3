@@ -12,7 +12,7 @@
    
        parsedData = d3.csvParse(csv, d3.autoType)
    
-       console.log("Initial Data:", Data);
+       console.log("Initial Data:", parsedData);
 
     // Convert each row from an object to an array
     for (let i = 0; i < parsedData.length; i++) {
