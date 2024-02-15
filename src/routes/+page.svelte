@@ -20,6 +20,7 @@
         const newRow = {};
         for (const key in row) {
             const value = row[key];
+            console.log(value);
             newRow[key] = isNaN(value) ? value : Math.round(value * 100) / 100;
         }
         Data.push(newRow);
