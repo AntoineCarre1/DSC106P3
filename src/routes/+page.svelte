@@ -1,9 +1,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="http://d3js.org/d3.v7.js"></script>
-    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
-    <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
     <title>World Map Outline with D3.js</title>
     <style>
         /* CSS styling for the map */
@@ -14,7 +11,9 @@
         }
     </style>
 </head>
-
+<script src="http://d3js.org/d3.v7.js"></script>
+<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+<script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
 <script>
     import {onMount} from 'svelte';
     import * as d3 from 'd3';
