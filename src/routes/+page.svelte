@@ -9,7 +9,7 @@ onMount(async () => {
     const csv = await res.text();
 
     // Split the CSV data into rows using '\n' as the row delimiter
-    Data = csvParseRows(csv, row => {
+    Data = d3.csvParseRows(csv, row => {
         return row.split(';');
     });
     console.log("Data:", Data);
