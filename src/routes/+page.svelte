@@ -15,6 +15,12 @@ onMount(async () => {
 
  // D3.js code to draw the outline of the world map
  const svg = d3.select("svg");
+  // Define projection and path generator
+  const projection = d3.geoNaturalEarth1()
+                            .scale(150)
+                            .translate([480, 300]);
+        const pathGenerator = d3.geoPath().projection(projection);
+
 
 </script>
 
