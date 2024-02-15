@@ -27,28 +27,83 @@ onMount(async () => {
     console.log("Data:", Data);
 });
 
- // D3.js code to draw the outline of the world map
-const svg = d3.select(svgRef);
- // Define projection and path generator
-const projection = d3.geoNaturalEarth1()
-                            .scale(150)
-                            .translate([480, 300]);
-const pathGenerator = d3.geoPath().projection(projection);
 
-        // Load world GeoJSON data from Natural Earth
-d3.json("https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_countries.geojson").then(function(world) {
-            // Draw outline of the world map
-svg.selectAll("path")
-    .data(world.features)
-    .enter().append("path")
-    .attr("d", pathGenerator);
-}).catch(function(error) {
-            console.log(error);
-});
+// The svg
+var svg = d3.select(svgRef),
+  width = +svg.attr("width"),
+  height = +svg.attr("height");
+
+// Map and projection
+var path = d3.geoPath();
+var projection = d3.geoMercator()
+  .scale(70)
+  .center([0,20])
+  .translate([width / 2, height / 2]);
+
+// Data and color scale
+var data = d3.map();
+var colorScale = d3.scaleThreshold()
+  .domain([100000, 1000000, 10000000, 30000000, 100000000, 500000000])
+  .range(d3.schemeBlues[7]);
+
+// Load external data and boot
+d3.queue()
+  .defer(d3.json, "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson")
+  .defer(d3.csv, 'API_SP.DYN.LE00.IN_DS2_en_csv_v2_46.csv', function(d) { data.set(d.code, +d.pop); })
+  .await(ready);
+
+function ready(error, topo) {
+
+  let mouseOver = function(d) {
+    d3.selectAll(".Country")
+      .transition()
+      .duration(200)
+      .style("opacity", .5)
+    d3.select(this)
+      .transition()
+      .duration(200)
+      .style("opacity", 1)
+      .style("stroke", "black")
+  }
+
+  let mouseLeave = function(d) {
+    d3.selectAll(".Country")
+      .transition()
+      .duration(200)
+      .style("opacity", .8)
+    d3.select(this)
+      .transition()
+      .duration(200)
+      .style("stroke", "transparent")
+  }
+
+  // Draw the map
+  svg.append("g")
+    .selectAll("path")
+    .data(topo.features)
+    .enter()
+    .append("path")
+      // draw each country
+      .attr("d", d3.geoPath()
+        .projection(projection)
+      )
+      // set the color of each country
+      .attr("fill", function (d) {
+        d.total = data.get(d.id) || 0;
+        return colorScale(d.total);
+      })
+      .style("stroke", "transparent")
+      .attr("class", function(d){ return "Country" } )
+      .style("opacity", .8)
+      .on("mouseover", mouseOver )
+      .on("mouseleave", mouseLeave )
+    }
+
 </script>
 
 <h1>Welcome to SvelteKit</h1>
 <p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
-<body>
-    <svg width="3000" height="2000"></svg>
-</body>
+
+
+<!-- Create an element where the map will take place -->
+<svg id="my_dataviz" width="2000" height="1500"></svg>
