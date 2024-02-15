@@ -13,10 +13,8 @@
    
        console.log(Data);
        Data = Data.map(row => {
-        console.log("Row before rounding:", row);
-        const roundedRow = row.map(value => Math.round(value * 100) / 100);
-        console.log("Row after rounding:", roundedRow);
-        return roundedRow;
+        const values = Object.values(row).slice(4); // Exclude the first four columns
+        return values.map(value => Math.round(value * 100) / 100);
         });
     console.log("Data after rounding:", Data);
     });
