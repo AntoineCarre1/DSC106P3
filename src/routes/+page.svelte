@@ -11,12 +11,12 @@
         }
     </style>
 </head>
+<script src="http://d3js.org/d3.v7.js"></script>
+<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+<script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
 <script>
     import {onMount} from 'svelte';
     import * as d3 from 'd3';
-    import 'd3/dist/d3.v7.min.js';
-    import 'd3-scale-chromatic/dist/d3-scale-chromatic.v1.min.js';
-    import 'd3-geo-projection/dist/d3-geo-projection.v2.min.js';
 
 let Data = [];
 onMount(async () => {
