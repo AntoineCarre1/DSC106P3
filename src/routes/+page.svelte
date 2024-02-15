@@ -1,3 +1,12 @@
+<style>
+    /* CSS styling for the map */
+    path {
+        fill: none;
+        stroke: #000;
+        stroke-width: 1;
+    }
+</style>
+
 <script>
     import {onMount} from 'svelte';
     import * as d3 from 'd3';
@@ -38,11 +47,3 @@ onMount(async () => {
 <h1>Welcome to SvelteKit</h1>
 <p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
 <svg width="3000" height="2000"></svg>
-<style>
-    /* CSS styling for the map */
-    path {
-        fill: none;
-        stroke: #000;
-        stroke-width: 1;
-    }
-</style>
