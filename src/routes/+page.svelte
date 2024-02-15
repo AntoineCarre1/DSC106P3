@@ -10,6 +10,7 @@ onMount(async () => {
 
     // Split the CSV data into rows using '\n' as the row delimiter
     const rows = csv.split('\n');
+    console.log(rows)
 
     // Parse each row into an array of values using ';' as the column delimiter
     for (let i = 0; i < rows.length; i++) {
