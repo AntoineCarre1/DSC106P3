@@ -13,6 +13,9 @@ onMount(async () => {
     console.log("Data:", Data);
 });
 
+ // D3.js code to draw the outline of the world map
+ const svg = d3.select("svg");
+
 </script>
 
 <head>
