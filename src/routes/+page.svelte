@@ -11,14 +11,18 @@
    
        Data = d3.csvParse(csv, d3.autoType)
    
-       console.log(Data);
-       Data = Data.map(row => {
+       console.log("Initial Data:", Data);
+
+    // Convert each row from an object to an array
+    Data = Data.map(row => {
         const values = Object.values(row).slice(4); // Exclude the first four columns
         return values.map(value => Math.round(value * 100) / 100);
-        });
-    console.log("Data after rounding:", Data);
     });
 
+    console.log("Data after rounding:", Data);
+});
+
+console.log("Initial Data:", Data);
 </script>
 <h1>Welcome to SvelteKit</h1>
 <p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
