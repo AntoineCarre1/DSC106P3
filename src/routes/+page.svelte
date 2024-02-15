@@ -11,12 +11,17 @@
         }
     </style>
 </head>
-<script src="http://d3js.org/d3.v7.js"></script>
-<script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
-<script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
+<h1>Welcome to SvelteKit</h1>
+<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+
+
+<!-- Create an element where the map will take place -->
+<svg id="my_dataviz" width="2000" height="1500"></svg>
+
 <script>
     import {onMount} from 'svelte';
     import * as d3 from 'd3';
+
 
 let Data = [];
 onMount(async () => {
@@ -102,9 +107,3 @@ function ready(error, topo) {
 
 </script>
 
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
-
-
-<!-- Create an element where the map will take place -->
-<svg id="my_dataviz" width="2000" height="1500"></svg>
