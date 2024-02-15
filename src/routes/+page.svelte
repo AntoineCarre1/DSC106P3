@@ -5,7 +5,7 @@
 let Data = [];
 
 onMount(async () => {
-    const res = await fetch('static/Data/API_SP.DYN.LE00.IN_DS2_en_csv_v2_46.csv');
+    const res = await fetch('API_SP.DYN.LE00.IN_DS2_en_csv_v2_46.csv');
     const csv = await res.text();
 
     // Split the CSV data into rows using '\n' as the row delimiter
