@@ -31,11 +31,11 @@ onMount(async () => {
     // Split the CSV data into rows using '\n' as the row delimiter
     Data = d3.csvParse(csv, d3.autoType);
     console.log("Data:", Data);
-});
+
 
 
 // The svg
-var svg = d3.select(d3.svg),
+var svg = d3.select(d3."svg"),
   width = +svg.attr("width"),
   height = +svg.attr("height");
 
@@ -57,7 +57,7 @@ d3.queue()
   .defer(d3.json, "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson")
   .defer(d3.csv, 'API_SP.DYN.LE00.IN_DS2_en_csv_v2_46.csv', function(d) { data.set(d.code, +d.pop); })
   .await(ready);
-
+});
 function ready(error, topo) {
 
   let mouseOver = function(d) {
