@@ -1,4 +1,4 @@
-<script src="https://d3js.org/d3.v7.min.js">
+<script>
     import {onMount} from 'svelte';
     import * as d3 from 'd3';
 
