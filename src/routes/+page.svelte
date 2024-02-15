@@ -35,7 +35,7 @@ onMount(async () => {
 
 
 // The svg
-var svg = d3.select("svg"),
+var svg = d3.select("my_dataviz" ),
   width = +svg.attr("width"),
   height = +svg.attr("height");
 
