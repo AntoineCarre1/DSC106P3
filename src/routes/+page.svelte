@@ -10,7 +10,7 @@
    
        const csv = await res.text();
    
-       Data = d3.csvParse(csv, d3.autoType)
+       parsedData = d3.csvParse(csv, d3.autoType)
    
        console.log("Initial Data:", Data);
 
