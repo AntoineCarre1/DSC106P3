@@ -10,7 +10,9 @@
    
        const csv = await res.text();
    
-       let parsedData = d3.csvParse(csv, d3.autoType);
+       const parsedData = csvParseRows(csv, row => {
+        return row.split(';');
+    });
    
        console.log("Initial Data:", parsedData);
 
