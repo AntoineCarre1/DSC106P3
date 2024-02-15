@@ -37,7 +37,6 @@ svg.selectAll("path")
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>World Map Outline with D3.js</title>
-    <script src="https://d3js.org/d3.v7.min.js"></script>
     <style>
         /* CSS styling for the map */
         path {
