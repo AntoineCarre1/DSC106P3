@@ -17,7 +17,7 @@
     // Convert each row from an object to an array
     Data = Data.map(row => {
         const values = Object.values(row).slice(4); // Exclude the first four columns
-        return values.map(value => {console.log();
+        return values.map(value => {console.log(Math.round(value * 100) / 100);
         Math.round(value * 100) / 100});
     });
     dataStore.set(Data);
