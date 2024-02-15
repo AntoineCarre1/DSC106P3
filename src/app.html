@@ -34,7 +34,7 @@ var colorScale = d3.scaleThreshold()
 // Load external data and boot
 d3.queue()
   .defer(d3.json, "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson")
-  .defer(d3.csv, 'API_SP.DYN.LE00.IN_DS2_en_csv_v2_46.csv', function(d) {data.set(d.Country_Code, +d.s); })
+  .defer(d3.csv, 'API_SP.DYN.LE00.IN_DS2_en_csv_v2_46.csv', function(d) {data.set(d.Country_Code, +d.s2); })
   .await(ready);
 
 function ready(error, topo) {
