@@ -1,6 +1,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="http://d3js.org/d3.v4.js"></script>
+    <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
+    <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
     <title>World Map Outline with D3.js</title>
     <style>
         /* CSS styling for the map */
@@ -17,7 +20,6 @@
     import * as d3 from 'd3';
 
 let Data = [];
-let svgRef;
 onMount(async () => {
     const res = await fetch('API_SP.DYN.LE00.IN_DS2_en_csv_v2_46.csv');
     const csv = await res.text();
@@ -29,7 +31,7 @@ onMount(async () => {
 
 
 // The svg
-var svg = d3.select(svgRef),
+var svg = d3.select("svg"),
   width = +svg.attr("width"),
   height = +svg.attr("height");
 
