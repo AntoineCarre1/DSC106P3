@@ -1,9 +1,9 @@
 <script>
     import {onMount} from 'svelte';
     import * as d3 from 'd3';
-    import { writable } from 'svelte/store';
+
     let Data = [];
-    let dataStore = writable([]);
+
    onMount(async () => {
    
        const res = await fetch('API_SP.DYN.LE00.IN_DS2_en_csv_v2_46.csv');
@@ -15,12 +15,16 @@
        console.log("Initial Data:", Data);
 
     // Convert each row from an object to an array
-    Data = Data.map(row => {
-        const values = Object.values(row).slice(4); // Exclude the first four columns
-        return values.map(value => {console.log(Math.round(value * 100) / 100);
-        Math.round(value * 100) / 100});
-    });
-    dataStore.set(Data);
+    for (let i = 0; i < parsedData.length; i++) {
+        const row = parsedData[i];
+        const newRow = {};
+        for (const key in row) {
+            const value = row[key];
+            newRow[key] = isNaN(value) ? value : Math.round(value * 100) / 100;
+        }
+        Data.push(newRow);
+    }
+
     console.log("Data after rounding:", Data);
 });
 
