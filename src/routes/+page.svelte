@@ -35,7 +35,7 @@ onMount(async () => {
 
 
 // The svg
-var svg = d3.select(d3."svg"),
+var svg = d3.select('svg'),
   width = +svg.attr("width"),
   height = +svg.attr("height");
 
