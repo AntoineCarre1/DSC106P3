@@ -49,3 +49,6 @@ svg.selectAll("path")
 </head>
 <h1>Welcome to SvelteKit</h1>
 <p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<body>
+    <svg width="3000" height="2000"></svg>
+</body>
