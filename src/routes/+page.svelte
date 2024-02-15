@@ -3,7 +3,7 @@
     import * as d3 from 'd3';
 
 let Data = [];
-
+let svgRef;
 onMount(async () => {
     const res = await fetch('API_SP.DYN.LE00.IN_DS2_en_csv_v2_46.csv');
     const csv = await res.text();
@@ -14,7 +14,7 @@ onMount(async () => {
 });
 
  // D3.js code to draw the outline of the world map
-const svg = select("svg");
+const svg = d3.select(svgRef);
 
 </script>
 
