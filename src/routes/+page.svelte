@@ -1,8 +1,9 @@
 <script>
     import {onMount} from 'svelte';
     import * as d3 from 'd3';
+    import { writable } from 'svelte/store';
     let Data = [];
-
+    let dataStore = writable([]);
    onMount(async () => {
    
        const res = await fetch('API_SP.DYN.LE00.IN_DS2_en_csv_v2_46.csv');
@@ -18,7 +19,7 @@
         const values = Object.values(row).slice(4); // Exclude the first four columns
         return values.map(value => Math.round(value * 100) / 100);
     });
-
+    dataStore.set(Data);
     console.log("Data after rounding:", Data);
 });
 
