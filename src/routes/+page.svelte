@@ -18,7 +18,7 @@
     for (let i = 0; i < parsedData.length; i++) {
         const row = parsedData[i];
         const newRow = {};
-        console.log(row.length);
+        console.log(row);
         for (const key in row) {
             const value = row[key];
             console.log(value);
