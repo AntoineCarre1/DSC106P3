@@ -15,7 +15,22 @@ onMount(async () => {
 
  // D3.js code to draw the outline of the world map
 const svg = d3.select(svgRef);
+ // Define projection and path generator
+const projection = d3.geoNaturalEarth1()
+                            .scale(150)
+                            .translate([480, 300]);
+const pathGenerator = d3.geoPath().projection(projection);
 
+        // Load world GeoJSON data from Natural Earth
+d3.json("https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_110m_admin_0_countries.geojson").then(function(world) {
+            // Draw outline of the world map
+svg.selectAll("path")
+    .data(world.features)
+    .enter().append("path")
+    .attr("d", pathGenerator);
+}).catch(function(error) {
+            console.log(error);
+});
 </script>
 
 <head>
