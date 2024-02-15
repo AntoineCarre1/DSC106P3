@@ -1,3 +1,17 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>World Map Outline with D3.js</title>
+    <style>
+        /* CSS styling for the map */
+        path {
+            fill: none;
+            stroke: #000;
+            stroke-width: 1;
+        }
+    </style>
+</head>
+
 <script>
     import {onMount} from 'svelte';
     import * as d3 from 'd3';
@@ -33,19 +47,6 @@ svg.selectAll("path")
 });
 </script>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>World Map Outline with D3.js</title>
-    <style>
-        /* CSS styling for the map */
-        path {
-            fill: none;
-            stroke: #000;
-            stroke-width: 1;
-        }
-    </style>
-</head>
 <h1>Welcome to SvelteKit</h1>
 <p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
 <body>
