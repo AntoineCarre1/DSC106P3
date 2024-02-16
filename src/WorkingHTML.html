@@ -1,3 +1,4 @@
+<!-- Code from d3-graph-gallery.com -->
 <!DOCTYPE html>
 <meta charset="utf-8">
 
@@ -10,114 +11,120 @@
 <svg id="my_dataviz" width="2000" height="1500"></svg>
 
 <script>
-    // The svg
-    var svg = d3.select("svg"),
-        width = +svg.attr("width"),
-        height = +svg.attr("height");
+  // The svg
+  var svg = d3.select("svg"),
+    width = +svg.attr("width"),
+    height = +svg.attr("height");
 
-    // Map and projection
-    var path = d3.geoPath();
-    var projection = d3.geoMercator()
-        .scale(200)
-        .center([0, 20])
-        .translate([width / 2, height / 2]);
+  // Map and projection
+  var path = d3.geoPath();
+  var projection = d3.geoMercator()
+    .scale(200)
+    .center([0, 20])
+    .translate([width / 2, height / 2]);
 
-    // Data and color scale
-    var data = d3.map();
-    var colorScale = d3.scaleThreshold()
-        .domain([20, 30, 40, 50, 60, 70, 80, 90, 100])
-        .range(d3.schemeBlues[7]);
+  // Data and color scale
+  var data = d3.map();
+  var colorScale = d3.scaleThreshold()
+    .domain([20, 30, 40, 50, 60, 70, 80, 90, 100])
+    .range(d3.schemeBlues[7]);
 
-    // Load external data and boot
-    d3.queue()
-        .defer(d3.json, "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson")
-        .defer(d3.csv, 'https://raw.githubusercontent.com/Anto6945/DSC106P3/main/static/API_SP.DYN.LE00.IN_DS2_en_csv_v2_46.csv', function (d) {
-            data.set(d.Country_Code, +d.y1960);
-        })
-        .await(ready);
+  // Load external data and boot
+  d3.queue()
+    .defer(d3.json, "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson")
+    .defer(d3.csv, 'https://raw.githubusercontent.com/Anto6945/DSC106P3/main/static/API_SP.DYN.LE00.IN_DS2_en_csv_v2_46.csv', function(d) {
+      data.set(d.Country_Code, +d.y1960);
+    })
+    .await(ready);
 
-    function ready(error, topo) {
-        // Draw the map
-        svg.append("g")
-            .selectAll("path")
-            .data(topo.features)
-            .enter()
-            .append("path")
-            // draw each country
-            .attr("d", d3.geoPath()
-                .projection(projection)
-            )
-            // set the color of each country
-            .attr("fill", function (d) {
-                d.total = data.get(d.id) || 0;
-                return colorScale(d.total);
-            })
-            .style("stroke", "transparent")
-            .attr("class", function (d) {
-                return "Country"
-            })
-            .style("opacity", .8)
-            .on("click", clicked)
-            .on("mouseover", mouseOver)
-            .on("mouseleave", mouseLeave);
+  function ready(error, topo) {
+
+    let mouseOver = function(d) {
+      d3.selectAll(".Country")
+        .transition()
+        .duration(200)
+        .style("opacity", .5)
+      d3.select(this)
+        .transition()
+        .duration(200)
+        .style("opacity", 1)
+        .style("stroke", "black")
     }
 
-    function clicked(event, d) {
-        const [[x0, y0], [x1, y1]] = path.bounds(d);
-        event.stopPropagation();
-        svg.transition().duration(750).call(
-            zoom.transform,
-            d3.zoomIdentity
-                .translate(width / 2, height / 2)
-                .scale(Math.min(8, 0.9 / Math.max((x1 - x0) / width, (y1 - y0) / height)))
-                .translate(-(x0 + x1) / 2, -(y0 + y1) / 2),
-            d3.pointer(event, svg.node())
-        );
+    let mouseLeave = function(d) {
+      d3.selectAll(".Country")
+        .transition()
+        .duration(200)
+        .style("opacity", .8)
+      d3.select(this)
+        .transition()
+        .duration(200)
+        .style("stroke", "transparent")
     }
 
-    function mouseOver(d) {
-        d3.selectAll(".Country")
-            .transition()
-            .duration(0)
-            .style("opacity", .5);
-        d3.select(this)
-            .transition()
-            .duration(0)
-            .style("opacity", 1)
-            .style("stroke", "black");
-    }
+    // Draw the map
+    svg.append("g")
+      .selectAll("path")
+      .data(topo.features)
+      .enter()
+      .append("path")
+      // draw each country
+      .attr("d", d3.geoPath()
+        .projection(projection)
+      )
+      // set the color of each country
+      .attr("fill", function(d) {
+        d.total = data.get(d.id) || 0;
+        return colorScale(d.total);
+      })
+      .style("stroke", "transparent")
+      .attr("class", function(d) {
+        return "Country"
+      })
+      .style("opacity", .8)
+      .on("mouseover", mouseOver)
+      .on("mouseleave", mouseLeave)
+      .on("click", clicked)
+  }
 
-    function mouseLeave(d) {
-        d3.selectAll(".Country")
-            .transition()
-            .duration(0)
-            .style("opacity", .8);
-        d3.select(this)
-            .transition()
-            .duration(0)
-            .style("stroke", "transparent");
-    }
+  function reset() {
+    svg.selectAll(".Country").transition().style("fill", null);
+    svg.transition().duration(750).call(
+      zoom.transform,
+      d3.zoomIdentity,
+      d3.zoomTransform(svg.node()).invert([width / 2, height / 2])
+    );
+  }
 
-    function reset() {
-        svg.transition().duration(750).call(
-            zoom.transform,
-            d3.zoomIdentity,
-            d3.zoomTransform(svg.node()).invert([width / 2, height / 2])
-        );
-    }
+  function clicked(event, d) {
+    const [[x0, y0], [x1, y1]] = path.bounds(d);
+    d3.event.stopPropagation();
+    svg.selectAll(".Country")
+      .transition().style("fill", null);
+    d3.select(this)
+      .transition().style("fill", "red");
+    svg.transition().duration(750).call(
+      zoom.transform,
+      d3.zoomIdentity
+      .translate(width / 2, height / 2)
+      .scale(Math.min(8, 0.9 / Math.max((x1 - x0) / width, (y1 - y0) / height)))
+      .translate(-(x0 + x1) / 2, -(y0 + y1) / 2),
+      d3.pointer(event, svg.node())
+    );
+  }
 
-    svg.call(d3.zoom()
-        .scaleExtent([1, 8])
-        .on("zoom", zoomed));
+  var zoom = d3.zoom()
+    .scaleExtent([1, 8])
+    .on("zoom", zoomed);
 
-    function zoomed(event) {
-        const {transform} = event;
-        svg.selectAll("path")
-            .attr("transform", transform)
-            .attr("stroke-width", 1 / transform.k);
-    }
+  function zoomed(event) {
+    const {
+      transform
+    } = event;
+    svg.attr("transform", transform);
+    svg.attr("stroke-width", 1 / transform.k);
+  }
 
-    // Reset zoom on click outside of the map
-    d3.select(window).on("click", reset);
+  svg.call(zoom);
 
 </script>
