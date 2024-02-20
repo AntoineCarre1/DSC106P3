@@ -1,32 +1,14 @@
 <script>
     import { onMount } from 'svelte';
     import * as d3 from 'd3';
+    import * as topojson from 'topojson-client';
 
     let usData;
     let svg;
-    let Data = [];
+
     onMount(async () => {
-        const res = await fetch('API_SP.DYN.LE00.IN_DS2_en_csv_v2_46.csv');
-        const csv = await res.text();
-        Data = d3.csvParse(csv, d3.autoType);
-        console.log("Data:", Data);
-
-
-
-        const response = await fetch("https://d3js.org/d3.v4.js");
-        const text = await response.text();
-        eval(text);
-
-        const response2 = await fetch("https://d3js.org/d3-scale-chromatic.v1.min.js");
-        const text2 = await response2.text();
-        eval(text2);
-
-        const response3 = await fetch("https://d3js.org/d3-geo-projection.v2.min.js");
-        const text3 = await response3.text();
-        eval(text3);
-
-        const response4 = await fetch("https://d3js.org/us-10m.v1.json");
-        usData = await response4.json();
+        const response = await fetch("https://d3js.org/us-10m.v1.json");
+        usData = await response.json();
 
         svg = d3.select("#my_dataviz")
             .attr("viewBox", [0, 0, 975, 610])
@@ -94,3 +76,4 @@
 <main>
     <svg id="my_dataviz" />
 </main>
+
