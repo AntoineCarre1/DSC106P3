@@ -10,21 +10,23 @@
 <style>
     #legend {
         position: absolute;
-        top: 50px; /* Adjust as needed */
-        right: 50px; /* Adjust as needed */
+        top: 200px; /* Adjust as needed */
+        right: 600px; /* Adjust as needed */
         background-color: white;
-        border: 1px solid #ccc;
-        padding: 10px;
-        font-size: 14px;
+        border: 1px solid #000000;
+        padding: 30px; /* Increase padding */
+        font-size: 20px; /* Increase font size */
+        width: 400px; /* Increase width */
+        height: 300px; /* Increase height */
     }
 
     #legend-caption {
         font-weight: bold;
-        margin-bottom: 5px;
+        margin-bottom: 10px;
     }
 
     .legend-item {
-        margin-bottom: 5px;
+        margin-bottom: 10px;
     }
 </style>
 
@@ -78,11 +80,11 @@
         .style("font-size", "30px")
         .text("Life Expectancy Scale");
 
-    // Append legend items with larger font size
     for (var i = 0; i < range.length; i++) {
         legend.append("div")
             .style("background-color", range[i])
-            .style("font-size", "18px") // Set larger font size
+            .style("font-size", "25px") 
+            .style("height", "35px")
             .html("<span style='font-size: 16px;'>" + domain[i] + "</span> - <span style='font-size: 16px;'>" + domain[i + 1] + "</span>");
     }
 }
@@ -148,21 +150,22 @@
   }
 
   function clicked(event, d) {
-    const countryName = d.properties.name; // Retrieve country name
-    alert("Clicked on: " + countryName); // Display country name
+    const countryID = d.properties.name; // Retrieve country name
+    const lifeExpectancy = data.get(d.id); // Retrieve life expectancy
+    alert("Country: " + countryID + "\nLife Expectancy: " + lifeExpectancy); // Display country name and life expectancy
     const [[x0, y0], [x1, y1]] = path.bounds(d);
     d3.event.stopPropagation();
     svg.selectAll(".Country")
-      .transition().style("fill", null);
+        .transition().style("fill", null);
     d3.select(this)
-      .transition().style("fill", "red");
+        .transition().style("fill", "red");
     svg.transition().duration(750).call(
-      zoom.transform,
-      d3.zoomIdentity
-      .translate(width / 2, height / 2)
-      .scale(Math.min(8, 0.9 / Math.max((x1 - x0) / width, (y1 - y0) / height)))
-      .translate(-(x0 + x1) / 2, -(y0 + y1) / 2),
-      d3.pointer(event, svg.node())
+        zoom.transform,
+        d3.zoomIdentity
+            .translate(width / 2, height / 2)
+            .scale(Math.min(8, 0.9 / Math.max((x1 - x0) / width, (y1 - y0) / height)))
+            .translate(-(x0 + x1) / 2, -(y0 + y1) / 2),
+        d3.pointer(event, svg.node())
     );
 }
 
