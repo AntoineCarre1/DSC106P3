@@ -63,7 +63,7 @@
 <main>
     
     <svg {width} {height}>
-        <Marks {dataset} />
+        <Marks {world} />
       </svg>
     <svg id="my_dataviz" />
 </main>
