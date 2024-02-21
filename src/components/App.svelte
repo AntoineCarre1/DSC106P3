@@ -33,7 +33,7 @@
                 .on("click", reset);
             const projection = d3.geoNaturalEarth1()
                 .rotate([180, 0])
-                .fitSize([width, height], { type: "Sphere" });
+                .fitSize([width, height]);
 
             path.projection(projection);
             //svg.append("g")
@@ -49,8 +49,8 @@
                 .append("title")
                 .text(d => `${d.properties.name}\n${valuemap.get(d.Country_Code)}%`);
 
-                svg.append("path")
-                .datum({type: "Sphere"})
+            svg.append("path")
+                .datum(d3.geoGraticule())
                 .attr("class", "graticule")
                 .attr("d", path);
 
