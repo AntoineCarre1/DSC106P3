@@ -227,7 +227,8 @@ function updateYear(value){
     let index = Data.findIndex(obj => obj.Country_Code == worldarray[d].id);
     console.log(index);
     country = Data[index];
-    var lifeExpectancy = country.y2021; 
+    call = 'y'+value
+    var lifeExpectancy = country[call]; 
     var name = country.Country_Name;
     var content = "<p>" + name + " Life Expectancy: " + lifeExpectancy + " years</p>";
 
