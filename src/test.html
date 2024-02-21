@@ -1,6 +1,7 @@
 <!-- Code from d3-graph-gallery.com -->
 <!DOCTYPE html>
 <meta charset="utf-8">
+<head>
 
 <!-- Load d3.js -->
 <script src="https://d3js.org/d3.v4.js"></script>
@@ -29,11 +30,23 @@
         margin-bottom: 10px;
     }
 </style>
+</head>
 
+<body>
 <!-- Create an element where the map will take place -->
 <svg id="my_dataviz" width="2000" height="1500"></svg>
 <div id="legend"></div>
 
+<div class="overlay">
+    <label>Years</label>
+    <input
+        id="slider"
+        type="range"
+        min="1970"
+        max="2022"
+        bind:value={slider_time}
+    />
+</div>
 <script>
   // The svg
   var svg = d3.select("svg"),
@@ -150,6 +163,12 @@
   }
 
   function clicked(event, d) {
+    if (!d) {
+        console.error("Undefined data:", d);
+        return;
+    }
+
+    console.log("Clicked on:", d.properties.id); // Debugging: Log country name
     const countryID = d.properties.name; // Retrieve country name
     const lifeExpectancy = data.get(d.id); // Retrieve life expectancy
     alert("Country: " + countryID + "\nLife Expectancy: " + lifeExpectancy); // Display country name and life expectancy
@@ -185,3 +204,4 @@
   svg.call(zoom);
 
 </script>
+</body>
