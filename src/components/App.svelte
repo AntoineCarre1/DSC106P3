@@ -10,7 +10,7 @@
         Data = d3.csvParse(csv, d3.autoType);
         console.log("Data:", Data);
 
-        const world = await d3.json('https://raw.githubusercontent.com/d3/d3.github.com/master/world-110m.json');
+        const world = await d3.json('https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson');
 
         const width = 975;
         const height = 610;
