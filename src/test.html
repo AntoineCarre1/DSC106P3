@@ -1,7 +1,5 @@
-<!-- Code from d3-graph-gallery.com -->
 <!DOCTYPE html>
 <meta charset="utf-8">
-<head>
 
 <!-- Load d3.js -->
 <script src="https://d3js.org/d3.v4.js"></script>
@@ -9,44 +7,32 @@
 <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
 
 <style>
-    #legend {
-        position: absolute;
-        top: 200px; /* Adjust as needed */
-        right: 600px; /* Adjust as needed */
-        background-color: white;
-        border: 1px solid #000000;
-        padding: 30px; /* Increase padding */
-        font-size: 20px; /* Increase font size */
-        width: 400px; /* Increase width */
-        height: 300px; /* Increase height */
-    }
+  #legend {
+      position: absolute;
+      top: 200px; /* Adjust as needed */
+      right: 600px; /* Adjust as needed */
+      background-color: white;
+      border: 1px solid #000000;
+      padding: 30px; /* Increase padding */
+      font-size: 20px; /* Increase font size */
+      width: 400px; /* Increase width */
+      height: 350px; /* Increase height */
+  }
 
-    #legend-caption {
-        font-weight: bold;
-        margin-bottom: 10px;
-    }
+  #legend-caption {
+      font-weight: bold;
+      margin-bottom: 10px;
+  }
 
-    .legend-item {
-        margin-bottom: 10px;
-    }
+  .legend-item {
+      margin-bottom: 10px;
+  }
 </style>
-</head>
 
-<body>
 <!-- Create an element where the map will take place -->
 <svg id="my_dataviz" width="2000" height="1500"></svg>
 <div id="legend"></div>
 
-<div class="overlay">
-    <label>Years</label>
-    <input
-        id="slider"
-        type="range"
-        min="1970"
-        max="2022"
-        bind:value={slider_time}
-    />
-</div>
 <script>
   // The svg
   var svg = d3.select("svg"),
@@ -63,44 +49,18 @@
   // Data and color scale
   var data = d3.map();
   var colorScale = d3.scaleThreshold()
-    .domain([20, 30, 40, 50, 60, 70, 80, 90, 100])
-    .range(d3.schemeReds[7]);
+    .domain([50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100, 105])  // Update these thresholds according to your changes
+    .range(d3.schemeReds[10]);
+  
+  createLegend(colorScale);
 
   // Load external data and boot
   d3.queue()
     .defer(d3.json, "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson")
     .defer(d3.csv, 'https://raw.githubusercontent.com/Anto6945/DSC106P3/main/static/API_SP.DYN.LE00.IN_DS2_en_csv_v2_46.csv', function(d) {
-      data.set(d.Country_Code, +d.y1960);
+      data.set(d.Country_Code, +d.y2021);
     })
     .await(ready);
-
-    function createLegend(colorScale) {
-    // Get the domain of the color scale
-    var domain = colorScale.domain();
-
-    // Get the range of the color scale
-    var range = colorScale.range();
-
-    // Get the legend element
-    var legend = d3.select("#legend");
-
-    // Clear previous content
-    legend.html("");
-
-    // Add caption
-    legend.append("div")
-        .style("font-weight", "bold")
-        .style("font-size", "30px")
-        .text("Life Expectancy Scale");
-
-    for (var i = 0; i < range.length; i++) {
-        legend.append("div")
-            .style("background-color", range[i])
-            .style("font-size", "25px") 
-            .style("height", "35px")
-            .html("<span style='font-size: 16px;'>" + domain[i] + "</span> - <span style='font-size: 16px;'>" + domain[i + 1] + "</span>");
-    }
-}
 
   function ready(error, topo) {
 
@@ -163,13 +123,64 @@
   }
 
   function clicked(event, d) {
-    d.total = data.get(d.id) || 0;
-    var lifeExpectancy = d.total; // Get the life expectancy for the clicked country
+    var lifeExpectancy = d.id; // Get the life expectancy for the clicked country
     console.log(d.id);
-  // Display the name and life expectancy
+    // Display the name and life expectancy
     alert("Life Expectancy: " + lifeExpectancy + " years");
-}
+    const [[x0, y0], [x1, y1]] = path.bounds(d);
+    d3.event.stopPropagation();
+    svg.selectAll(".Country")
+      .transition().style("fill", null);
+    d3.select(this)
+      .transition().style("fill", "red");
+    svg.transition().duration(750).call(
+      zoom.transform,
+      d3.zoomIdentity
+      .translate(width / 2, height / 2)
+      .scale(Math.min(8, 0.9 / Math.max((x1 - x0) / width, (y1 - y0) / height)))
+      .translate(-(x0 + x1) / 2, -(y0 + y1) / 2),
+      d3.pointer(event, svg.node())
+    );
+  }
 
+  function createLegend(colorScale) {
+    // Get the domain of the color scale
+    var domain = colorScale.domain();
+
+    // Get the range of the color scale
+    var range = colorScale.range();
+
+    // Get the legend element
+    var legend = d3.select("#legend");
+
+    // Clear previous content
+    legend.html("");
+
+    // Add caption
+    legend.append("div")
+      .style("font-weight", "bold")
+      .style("font-size", "30px")
+      .text("Life Expectancy Scale");
+
+    for (var i = 0; i < range.length; i++) {
+      legend.append("div")
+        .style("background-color", range[i])
+        .style("font-size", "25px")
+        .style("height", "35px")
+        .html("<span style='font-size: 16px;'>" + domain[i] + "</span> - <span style='font-size: 16px;'>" + domain[i + 1] + "</span>");
+    }}
+
+
+  var zoom = d3.zoom()
+    .scaleExtent([1, 8])
+    .on("zoom", zoomed);
+
+  function zoomed(event) {
+    const { transform } = event;
+    svg.attr("transform", transform);
+    svg.attr("stroke-width", 1 / transform.k);
+  }
+
+  svg.call(zoom);
 
 </script>
-</body>
