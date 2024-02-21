@@ -32,8 +32,8 @@
                 .attr("style", "max-width: 100%; height: auto;")
                 .on("click", reset);
 
-            svg.append("g")
-                .attr("translate(610,20)");
+            //svg.append("g")
+                //.attr("transform", "translate(610,20)");
                 //.call(d3.legendColor().title("Unemployment rate (%)").scale(color));
 
             svg.append("g")
