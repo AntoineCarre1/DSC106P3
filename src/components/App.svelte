@@ -1,19 +1,24 @@
 <script>
     import { onMount } from 'svelte';
     import * as d3 from 'd3';
+    import Marks from "./Marks.svelte";
 
     let svg;
     let Data = [];
+    const width = 1200;
+    const height = 600;
     onMount(async () => {
         const res = await fetch('API_SP.DYN.LE00.IN_DS2_en_csv_v2_46.csv');
         const csv = await res.text();
         Data = d3.csvParse(csv, d3.autoType);
         console.log("Data:", Data);
 
-        const world = await d3.json('https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson');
-
-        const width = 975;
-        const height = 610;
+        let world = [];
+        json(
+        "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson"
+        ).then((data) => {
+            world = data.features;
+         });
 
         const zoom = d3.zoom()
             .scaleExtent([1, 8])
@@ -56,5 +61,9 @@
 </script>
 
 <main>
+    
+    <svg {width} {height}>
+        <Marks {dataset} />
+      </svg>
     <svg id="my_dataviz" />
 </main>
