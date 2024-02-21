@@ -1,7 +1,6 @@
 <script>
     import { onMount } from 'svelte';
     import * as d3 from 'd3';
-    import Marks from "./Marks.svelte";
 
     let svg;
     let Data = [];
@@ -14,56 +13,65 @@
         Data = d3.csvParse(csv, d3.autoType);
         console.log("Data:", Data);
 
-        d3.json(
-        "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson"
-        ).then((data) => {
+        d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson").then(data => {
             world = data.features;
-         });
 
-        const zoom = d3.zoom()
-            .scaleExtent([1, 8])
-            .on("zoom", zoomed);
+            const color = d3.scaleQuantize([1, 10], d3.schemeBlues[9]);
+            const path = d3.geoPath();
+            const format = d => `${d}%`;
+            const valuemap = new Map(Data.map(d => [d.id, d.rate]));
 
-        svg = d3.select("#my_dataviz")
-            .attr("viewBox", [0, 0, width, height])
-            .attr("width", width)
-            .attr("height", height)
-            .attr("style", "max-width: 100%; height: auto;")
-            .on("click", reset);
+            const zoom = d3.zoom()
+                .scaleExtent([1, 8])
+                .on("zoom", zoomed);
 
-        
+            svg = d3.select("#my_dataviz")
+                .attr("viewBox", [0, 0, width, height])
+                .attr("width", width)
+                .attr("height", height)
+                .attr("style", "max-width: 100%; height: auto;")
+                .on("click", reset);
 
-    const projection = d3.geoNaturalEarth1().fitSize([width, height], world);
-    const path = d3.geoPath(projection);
+            svg.append("g")
+                .attr("transform", "translate(610,20)")
+                .append(() => Legend(color, {title: "Unemployment rate (%)", width: 260}));
 
-    svg.append("path")
-            .datum(d3.geoGraticule())
-            .attr("class", "graticule")
-            .attr("d", path);
+            svg.append("g")
+                .selectAll("path")
+                .data(world)
+                .join("path")
+                .attr("fill", d => color(valuemap.get(d.id)))
+                .attr("d", path)
+                .append("title")
+                .text(d => `${d.properties.name}\n${valuemap.get(d.id)}%`);
 
-    svg.call(zoom);
+            svg.append("path")
+                .datum({type: "Sphere"})
+                .attr("fill", "none")
+                .attr("stroke", "white")
+                .attr("stroke-linejoin", "round")
+                .attr("d", path);
 
-    function reset() {
-        svg.transition().duration(750).call(
-            zoom.transform,
-            d3.zoomIdentity,
-            d3.zoomTransform(svg.node()).invert([width / 2, height / 2])
-        );
-    }
+            svg.call(zoom);
 
-    function zoomed(event) {
-        const { transform } = event;
-        svg.selectAll("path")
-            .attr("transform", transform)
-            .attr("stroke-width", 1 / transform.k);
-    }
-});
+            function reset() {
+                svg.transition().duration(750).call(
+                    zoom.transform,
+                    d3.zoomIdentity,
+                    d3.zoomTransform(svg.node()).invert([width / 2, height / 2])
+                );
+            }
+
+            function zoomed(event) {
+                const { transform } = event;
+                svg.selectAll("path")
+                    .attr("transform", transform)
+                    .attr("stroke-width", 1 / transform.k);
+            }
+        });
+    });
 </script>
 
 <main>
-    
-    <svg {width} {height}>
-        <Marks {world} />
-      </svg>
     <svg id="my_dataviz" />
 </main>
