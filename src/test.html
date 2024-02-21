@@ -12,14 +12,14 @@
 <style>
     #legend {
         position: absolute;
-        top: 200px; 
-        right: 600px; 
+        top: 200px; /* Adjust as needed */
+        right: 600px; /* Adjust as needed */
         background-color: white;
         border: 1px solid #000000;
-        padding: 30px; 
-        font-size: 24px; 
-        width: 420px; 
-        height: 350px; 
+        padding: 30px; /* Increase padding */
+        font-size: 24px; /* Increase font size */
+        width: 420px; /* Increase width */
+        height: 350px; /* Increase height */
     }
 
     #legend-caption {
@@ -43,7 +43,7 @@
 </head>
 
 <body>
-<h1 style="text-align: center; font-size: 40px;">Life Expectancy of the World from 1960 to 2021</h1>
+<!-- Create an element where the map will take place -->
 <svg id="my_dataviz" width="2000" height="1500"></svg>
 <div id="legend"></div>
 <div id="displayBox" class="display-box"></div>
@@ -54,13 +54,13 @@
         type="range"
         min="1960"
         max="2021"
-        value="1960"
+        value="2021"
         oninput="updateYear(this.value)"
     />
 </div>
 <script>
 var displayValue = document.getElementById("displayValue");
-displayValue.textContent = 1960;
+displayValue.textContent = 2021;
 let Data = [];
 async function loadData() {
     const res = await fetch('https://raw.githubusercontent.com/Anto6945/DSC106P3/main/static/API_SP.DYN.LE00.IN_DS2_en_csv_v2_46.csv');
@@ -227,7 +227,8 @@ function updateYear(value){
     let index = Data.findIndex(obj => obj.Country_Code == worldarray[d].id);
     console.log(index);
     country = Data[index];
-    var lifeExpectancy = country.y2021; 
+    call = 'y'+value
+    var lifeExpectancy = country[call]; 
     var name = country.Country_Name;
     var content = "<p>" + name + " Life Expectancy: " + lifeExpectancy + " years</p>";
 
@@ -243,7 +244,7 @@ function updateYear(value){
     displayBox.style.display = "block";
 }
 }
-updateYear(1960);
+updateYear(2021);
 
 </script>
 </body>
