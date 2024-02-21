@@ -19,7 +19,7 @@
             const color = d3.scaleQuantize([1, 10], d3.schemeBlues[9]);
             const path = d3.geoPath();
             const format = d => `${d}%`;
-            const valuemap = new Map(Data.map(d => [d.id, d.rate]));
+            const valuemap = new Map(Data.map(d => [d.Country_Code, d.y1960]));
 
             const zoom = d3.zoom()
                 .scaleExtent([1, 8])
@@ -40,10 +40,10 @@
                 .selectAll("path")
                 .data(world)
                 .join("path")
-                .attr("fill", d => color(valuemap.get(d.id)))
+                .attr("fill", d => color(valuemap.get(d.Country_Code)))
                 .attr("d", path)
                 .append("title")
-                .text(d => `${d.properties.name}\n${valuemap.get(d.id)}%`);
+                .text(d => `${d.properties.name}\n${valuemap.get(d.Country_Code)}%`);
 
             svg.append("path")
                 .datum({type: "Sphere"})
