@@ -167,11 +167,11 @@ function updateYear(value){
     let mouseOver = function(d) {
       d3.selectAll(".Country")
         .transition()
-        .duration(200)
+        .duration(0)
         .style("opacity", .5)
       d3.select(this)
         .transition()
-        .duration(200)
+        .duration(0)
         .style("opacity", 1)
         .style("stroke", "black")
     }
@@ -179,11 +179,11 @@ function updateYear(value){
     let mouseLeave = function(d) {
       d3.selectAll(".Country")
         .transition()
-        .duration(200)
+        .duration(0)
         .style("opacity", .8)
       d3.select(this)
         .transition()
-        .duration(200)
+        .duration(0)
         .style("stroke", "transparent")
         createLegend(colorScale);
     }
@@ -216,7 +216,7 @@ function updateYear(value){
 
   function reset() {
     svg.selectAll(".Country").transition().style("fill", null);
-    svg.transition().duration(750).call(
+    svg.transition().duration(0).call(
       zoom.transform,
       d3.zoomIdentity,
       d3.zoomTransform(svg.node()).invert([width / 2, height / 2])
