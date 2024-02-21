@@ -45,13 +45,13 @@
         type="range"
         min="1960"
         max="2021"
-        value="1960"
+        value="2021"
         oninput="updateYear(this.value)"
     />
 </div>
 <script>
 var displayValue = document.getElementById("displayValue");
-displayValue.textContent = 1960;
+displayValue.textContent = 2021;
 let Data = [];
 async function loadData() {
     const res = await fetch('https://raw.githubusercontent.com/Anto6945/DSC106P3/main/static/API_SP.DYN.LE00.IN_DS2_en_csv_v2_46.csv');
@@ -222,7 +222,7 @@ function updateYear(value){
     alert("Life Expectancy: " + lifeExpectancy + " years");
 }
 }
-updateYear(1960);
+updateYear(2021);
 
 </script>
 </body>
