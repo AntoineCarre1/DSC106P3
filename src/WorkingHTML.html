@@ -8,24 +8,26 @@
 <script src="https://d3js.org/d3-geo-projection.v2.min.js"></script>
 
 <style>
-    #legend {
-        position: absolute;
-        top: 50px; /* Adjust as needed */
-        right: 50px; /* Adjust as needed */
-        background-color: white;
-        border: 1px solid #ccc;
-        padding: 10px;
-        font-size: 14px;
-    }
+  #legend {
+      position: absolute;
+      top: 200px; /* Adjust as needed */
+      right: 600px; /* Adjust as needed */
+      background-color: white;
+      border: 1px solid #000000;
+      padding: 30px; /* Increase padding */
+      font-size: 20px; /* Increase font size */
+      width: 400px; /* Increase width */
+      height: 300px; /* Increase height */
+  }
 
-    #legend-caption {
-        font-weight: bold;
-        margin-bottom: 5px;
-    }
+  #legend-caption {
+      font-weight: bold;
+      margin-bottom: 10px;
+  }
 
-    .legend-item {
-        margin-bottom: 5px;
-    }
+  .legend-item {
+      margin-bottom: 10px;
+  }
 </style>
 
 <!-- Create an element where the map will take place -->
@@ -51,33 +53,14 @@
     .domain([20, 30, 40, 50, 60, 70, 80, 90, 100])
     .range(d3.schemeReds[7]);
 
-    const sliderTimeScale = d3
-    .scaleTime()
-    .domain([0, 80])
-    .range([1960, 2021]);
-
-  let slider_time = 2021; // Initial value
-
   // Load external data and boot
-  function updateSlider(value) {
-            document.getElementById("sliderLabel").innerText = value;
-            slider_label = sliderTimeScale(slider_time)
-    d3.queue()
-      .defer(d3.json, "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson")
-      .defer(d3.csv, 'https://raw.githubusercontent.com/Anto6945/DSC106P3/main/static/API_SP.DYN.LE00.IN_DS2_en_csv_v2_46.csv', function(d) {
-        data.set(d.Country_Code, +d['y'+slider_time]);
-      })
-      .await(ready);
-        }
-  $: {
-    slider_label = sliderTimeScale(slider_time)
-    d3.queue()
-      .defer(d3.json, "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson")
-      .defer(d3.csv, 'https://raw.githubusercontent.com/Anto6945/DSC106P3/main/static/API_SP.DYN.LE00.IN_DS2_en_csv_v2_46.csv', function(d) {
-        data.set(d.Country_Code, +d['y'+slider_time]);
-      })
-      .await(ready);
-  }
+  d3.queue()
+    .defer(d3.json, "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson")
+    .defer(d3.csv, 'https://raw.githubusercontent.com/Anto6945/DSC106P3/main/static/API_SP.DYN.LE00.IN_DS2_en_csv_v2_46.csv', function(d) {
+      data.set(d.Country_Code, +d.y1960);
+    })
+    .await(ready);
+
     function createLegend(colorScale) {
     // Get the domain of the color scale
     var domain = colorScale.domain();
@@ -97,11 +80,11 @@
         .style("font-size", "30px")
         .text("Life Expectancy Scale");
 
-    // Append legend items with larger font size
     for (var i = 0; i < range.length; i++) {
         legend.append("div")
             .style("background-color", range[i])
-            .style("font-size", "18px") // Set larger font size
+            .style("font-size", "25px") 
+            .style("height", "35px")
             .html("<span style='font-size: 16px;'>" + domain[i] + "</span> - <span style='font-size: 16px;'>" + domain[i + 1] + "</span>");
     }
 }
@@ -167,8 +150,10 @@
   }
 
   function clicked(event, d) {
-    const countryName = d.properties.name; // Retrieve country name
-    alert("Clicked on: " + countryName); // Display country name
+    var lifeExpectancy = d.id; // Get the life expectancy for the clicked country
+    console.log(d.id);
+  // Display the name and life expectancy
+    alert("Life Expectancy: " + lifeExpectancy + " years");
     const [[x0, y0], [x1, y1]] = path.bounds(d);
     d3.event.stopPropagation();
     svg.selectAll(".Country")
@@ -199,21 +184,5 @@
 
 
   svg.call(zoom);
-  function updateSlider(value) {
-            document.getElementById("sliderLabel").innerText = value;
-        }
-</script>
-<main>
-  <div class="overlay">
-    <label id="sliderLabel"></label>
-    <input
-        id="slider"
-        type="range"
-        min="1960"
-        max="2021"
-        value="2021"
-        oninput="updateSlider(this.value)"
-    />
-</div>
 
-  </main>
+</script>
