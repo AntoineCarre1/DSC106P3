@@ -19,7 +19,7 @@
         padding: 30px; /* Increase padding */
         font-size: 20px; /* Increase font size */
         width: 400px; /* Increase width */
-        height: 300px; /* Increase height */
+        height: 350px; /* Increase height */
     }
 
     #legend-caption {
@@ -111,8 +111,8 @@ convertGeoJsonToArray(worldDataUrl);
   // Data and color scale
   var data = d3.map();
   var colorScale = d3.scaleThreshold()
-    .domain([50, 55, 60, 65, 70, 75, 80, 85, 90, 95])
-    .range(d3.schemeReds[9]);
+    .domain([50, 55, 60, 65, 70, 75, 80, 85, 90, 95, 100])
+    .range(d3.schemeReds[10]);
 
   // Load external data and boot
 
