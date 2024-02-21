@@ -4,8 +4,8 @@
 
     let svg;
     let Data = [];
-    const width = 1200;
-    const height = 900;
+    const width = 2400;
+    const height = 1800;
     let world = [];
     onMount(async () => {
         const res = await fetch('API_SP.DYN.LE00.IN_DS2_en_csv_v2_46.csv');
@@ -15,7 +15,7 @@
 
         d3.json("https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson").then(data => {
             world = data.features;
-
+        
             const color = d3.scaleQuantize([1, 10], d3.schemeBlues[9]);
             const path = d3.geoPath();
             const format = d => `${d}%`;
@@ -33,7 +33,7 @@
                 .on("click", reset);
 
             svg.append("g")
-                .attr("transform", "translate(610,20)");
+                .attr("translate(610,20)");
                 //.call(d3.legendColor().title("Unemployment rate (%)").scale(color));
 
             svg.append("g")
