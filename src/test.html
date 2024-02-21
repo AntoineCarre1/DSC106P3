@@ -39,13 +39,14 @@
 <div id="legend"></div>
 
 <div class="overlay">
-    <label>Years</label>
+    <label for="slider">Years </label>
     <input
         id="slider"
         type="range"
-        min="1970"
-        max="2022"
-        bind:value={slider_time}
+        min="1960"
+        max="2021"
+        value="1960"
+        oninput="updateYear(this.value)"
     />
 </div>
 <script>
@@ -95,8 +96,9 @@ async function convertGeoJsonToArray(url) {
 const worldDataUrl = 'https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson';
 convertGeoJsonToArray(worldDataUrl);
 
-
+function updateYear(value){
   // The svg
+  console.log(value);
   var svg = d3.select("svg"),
     width = +svg.attr("width"),
     height = +svg.attr("height");
@@ -119,7 +121,8 @@ convertGeoJsonToArray(worldDataUrl);
   d3.queue()
     .defer(d3.json, "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson")
     .defer(d3.csv, 'https://raw.githubusercontent.com/Anto6945/DSC106P3/main/static/API_SP.DYN.LE00.IN_DS2_en_csv_v2_46.csv', function(d) {
-      data.set(d.Country_Code, +d.y2021);
+      const call = 'y'+value;
+      data.set(d.Country_Code, +d[call]);
     })
     .await(ready);
 
@@ -214,14 +217,13 @@ convertGeoJsonToArray(worldDataUrl);
 
   function clicked(event, d) {
     let index = Data.findIndex(obj => obj.Country_Code == worldarray[d].id);
-    console.log(index);
     country = Data[index];
     var lifeExpectancy = country.y2021; // Get the life expectancy for the clicked country
-    console.log(d);
-    console.log(worldarray[d]);
   // Display the name and life expectancy
     alert("Life Expectancy: " + lifeExpectancy + " years");
 }
+}
+updateYear(1960);
 
 </script>
 </body>
