@@ -5,7 +5,7 @@
     let svg;
     let Data = [];
     const width = 1200;
-    const height = 600;
+    const height = 900;
     let world = [];
     onMount(async () => {
         const res = await fetch('API_SP.DYN.LE00.IN_DS2_en_csv_v2_46.csv');
@@ -34,7 +34,9 @@
 
             svg.append("g")
                 .attr("transform", "translate(610,20)")
-                //.append(() => d3.Legend(color, {title: "Unemployment rate (%)", width: 260}));
+                .call(d3.legendColor()
+                    .title("Unemployment rate (%)")
+                    .scale(color));
 
             svg.append("g")
                 .selectAll("path")
