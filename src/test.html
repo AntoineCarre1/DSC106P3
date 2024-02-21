@@ -3,6 +3,7 @@
 <meta charset="utf-8">
 <head>
 
+
 <!-- Load d3.js -->
 <script src="https://d3js.org/d3.v4.js"></script>
 <script src="https://d3js.org/d3-scale-chromatic.v1.min.js"></script>
@@ -48,6 +49,53 @@
     />
 </div>
 <script>
+
+let Data = [];
+
+async function loadData() {
+    const res = await fetch('API_SP.DYN.LE00.IN_DS2_en_csv_v2_46.csv');
+    const csv = await res.text();
+
+    // Split the CSV data into rows using '\n' as the row delimiter
+    Data = d3.csvParse(csv, d3.autoType);
+    console.log("Data:", Data);
+    return(Data);
+};
+loadData();
+let worldarray = [];
+async function fetchGeoJson(url) {
+  const response = await fetch(url);
+  const data = await response.json();
+  return data;
+}
+async function convertGeoJsonToArray(url) {
+  const geoJson = await fetchGeoJson(url);
+  
+  // Flatten the GeoJSON features into a simple array of objects
+  const featuresArray = [];
+  geoJson.features.forEach(feature => {
+    const properties = feature.properties;
+    const geometry = feature.geometry;
+
+    // Extract desired properties from the feature
+    const item = {
+      name: feature.properties.name, // Make sure the property exists in your GeoJSON
+      id: feature.id
+      // Add more properties as needed
+    };
+
+    featuresArray.push(item);
+  });
+
+  console.log(featuresArray);
+  worldarray = featuresArray;
+  return featuresArray;
+}
+
+const worldDataUrl = 'https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson';
+convertGeoJsonToArray(worldDataUrl);
+
+
   // The svg
   var svg = d3.select("svg"),
     width = +svg.attr("width"),
@@ -67,6 +115,7 @@
     .range(d3.schemeReds[7]);
 
   // Load external data and boot
+
   d3.queue()
     .defer(d3.json, "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson")
     .defer(d3.csv, 'https://raw.githubusercontent.com/Anto6945/DSC106P3/main/static/API_SP.DYN.LE00.IN_DS2_en_csv_v2_46.csv', function(d) {
@@ -141,6 +190,7 @@
       // set the color of each country
       .attr("fill", function(d) {
         d.total = data.get(d.id) || 0;
+        console.log(d.total);
         return colorScale(d.total);
       })
       .style("stroke", "transparent")
@@ -163,13 +213,14 @@
   }
 
   function clicked(event, d) {
+    let index = myArray.findIndex(obj => obj.id === worldarray[d].id);
     d.total = data.get(d.id) || 0;
     var lifeExpectancy = d.total; // Get the life expectancy for the clicked country
-    console.log(d.id);
+    console.log(d);
+    console.log(worldarray[d]);
   // Display the name and life expectancy
     alert("Life Expectancy: " + lifeExpectancy + " years");
 }
-
 
 </script>
 </body>
