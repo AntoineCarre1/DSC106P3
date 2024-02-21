@@ -53,7 +53,7 @@
 let Data = [];
 
 async function loadData() {
-    const res = await fetch('API_SP.DYN.LE00.IN_DS2_en_csv_v2_46.csv');
+    const res = await fetch('https://raw.githubusercontent.com/Anto6945/DSC106P3/main/static/API_SP.DYN.LE00.IN_DS2_en_csv_v2_46.csv');
     const csv = await res.text();
 
     // Split the CSV data into rows using '\n' as the row delimiter
@@ -213,9 +213,10 @@ convertGeoJsonToArray(worldDataUrl);
   }
 
   function clicked(event, d) {
-    let index = myArray.findIndex(obj => obj.id === worldarray[d].id);
-    d.total = data.get(d.id) || 0;
-    var lifeExpectancy = d.total; // Get the life expectancy for the clicked country
+    let index = Data.findIndex(obj => obj.Country_Code == worldarray[d].id);
+    console.log(index);
+    country = Data[index];
+    var lifeExpectancy = country.y1960; // Get the life expectancy for the clicked country
     console.log(d);
     console.log(worldarray[d]);
   // Display the name and life expectancy
