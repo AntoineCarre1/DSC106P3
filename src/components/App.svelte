@@ -34,7 +34,7 @@
 
             svg.append("g")
                 .attr("transform", "translate(610,20)")
-                .append(() => Legend(color, {title: "Unemployment rate (%)", width: 260}));
+                .append(() => d3.Legend(color, {title: "Unemployment rate (%)", width: 260}));
 
             svg.append("g")
                 .selectAll("path")
