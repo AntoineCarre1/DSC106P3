@@ -31,7 +31,11 @@
                 .attr("height", height)
                 .attr("style", "max-width: 100%; height: auto;")
                 .on("click", reset);
+            const projection = d3.geoNaturalEarth1()
+                .rotate([180, 0])
+                .fitSize([width, height], { type: "Sphere" });
 
+            path.projection(projection);
             //svg.append("g")
                 //.attr("transform", "translate(610,20)");
                 //.call(d3.legendColor().title("Unemployment rate (%)").scale(color));
@@ -45,8 +49,8 @@
                 .append("title")
                 .text(d => `${d.properties.name}\n${valuemap.get(d.Country_Code)}%`);
 
-            svg.append("path")
-                .datum(d3.geoGraticule())
+                svg.append("path")
+                .datum({type: "Sphere"})
                 .attr("class", "graticule")
                 .attr("d", path);
 
