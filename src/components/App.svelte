@@ -33,10 +33,8 @@
                 .on("click", reset);
 
             svg.append("g")
-                .attr("transform", "translate(610,20)")
-                .call(d3.legendColor()
-                    .title("Unemployment rate (%)")
-                    .scale(color));
+                .attr("transform", "translate(610,20)");
+                //.call(d3.legendColor().title("Unemployment rate (%)").scale(color));
 
             svg.append("g")
                 .selectAll("path")
@@ -48,10 +46,8 @@
                 .text(d => `${d.properties.name}\n${valuemap.get(d.Country_Code)}%`);
 
             svg.append("path")
-                .datum({type: "Sphere"})
-                .attr("fill", "none")
-                .attr("stroke", "white")
-                .attr("stroke-linejoin", "round")
+                .datum(d3.geoGraticule())
+                .attr("class", "graticule")
                 .attr("d", path);
 
             svg.call(zoom);
