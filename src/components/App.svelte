@@ -7,13 +7,13 @@
     let Data = [];
     const width = 1200;
     const height = 600;
+    let world = [];
     onMount(async () => {
         const res = await fetch('API_SP.DYN.LE00.IN_DS2_en_csv_v2_46.csv');
         const csv = await res.text();
         Data = d3.csvParse(csv, d3.autoType);
         console.log("Data:", Data);
 
-        let world = [];
         json(
         "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson"
         ).then((data) => {
