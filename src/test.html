@@ -30,6 +30,15 @@
     .legend-item {
         margin-bottom: 10px;
     }
+    .display-box {
+            position: absolute;
+            background-color: white;
+            border: 1px solid #000000;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            display: none;
+            font-size: 22.5px;
+        }
 </style>
 </head>
 
@@ -37,7 +46,7 @@
 <!-- Create an element where the map will take place -->
 <svg id="my_dataviz" width="2000" height="1500"></svg>
 <div id="legend"></div>
-
+<div id="displayBox" class="display-box"></div>
 <div class="overlay">
     <label for="slider">Years <span id="displayValue"></span></label>
     <input
@@ -216,10 +225,22 @@ function updateYear(value){
 
   function clicked(event, d) {
     let index = Data.findIndex(obj => obj.Country_Code == worldarray[d].id);
+    console.log(index);
     country = Data[index];
-    var lifeExpectancy = country.y2021; // Get the life expectancy for the clicked country
-  // Display the name and life expectancy
-    alert("Life Expectancy: " + lifeExpectancy + " years");
+    var lifeExpectancy = country.y2021; 
+    var name = country.Country_Name;
+    var content = "<p>" + name + " Life Expectancy: " + lifeExpectancy + " years</p>";
+
+    // Create a div element
+    var displayBox = document.getElementById("displayBox");
+    displayBox.innerHTML = content;
+    var mouseX = event.pageX; // X-coordinate of the mouse click relative to the entire document
+    var mouseY = event.pageY; // Y-coordinate of the mouse click relative to the entire document
+
+    // Set the position of the display box
+    displayBox.style.left = mouseX + "px";
+    displayBox.style.top = mouseY + "px";
+    displayBox.style.display = "block";
 }
 }
 updateYear(2021);
