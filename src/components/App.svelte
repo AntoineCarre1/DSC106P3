@@ -10,6 +10,8 @@
         Data = d3.csvParse(csv, d3.autoType);
         console.log("Data:", Data);
 
+        const world = await d3.json('https://raw.githubusercontent.com/d3/d3.github.com/master/world-110m.json');
+
         const width = 975;
         const height = 610;
 
@@ -24,31 +26,33 @@
             .attr("style", "max-width: 100%; height: auto;")
             .on("click", reset);
 
-        const projection = d3.geoAlbersUsa().scale(100).translate([width / 2, height / 2]);
-        const path = d3.geoPath(projection);
+        
 
-        svg.append("path")
+    const projection = d3.geoNaturalEarth1().fitSize([width, height], world);
+    const path = d3.geoPath(projection);
+
+    svg.append("path")
             .datum(d3.geoGraticule())
             .attr("class", "graticule")
             .attr("d", path);
 
-        svg.call(zoom);
+    svg.call(zoom);
 
-        function reset() {
-            svg.transition().duration(750).call(
-                zoom.transform,
-                d3.zoomIdentity,
-                d3.zoomTransform(svg.node()).invert([width / 2, height / 2])
-            );
-        }
+    function reset() {
+        svg.transition().duration(750).call(
+            zoom.transform,
+            d3.zoomIdentity,
+            d3.zoomTransform(svg.node()).invert([width / 2, height / 2])
+        );
+    }
 
-        function zoomed(event) {
-            const { transform } = event;
-            svg.selectAll("path")
-                .attr("transform", transform)
-                .attr("stroke-width", 1 / transform.k);
-        }
-    });
+    function zoomed(event) {
+        const { transform } = event;
+        svg.selectAll("path")
+            .attr("transform", transform)
+            .attr("stroke-width", 1 / transform.k);
+    }
+});
 </script>
 
 <main>
