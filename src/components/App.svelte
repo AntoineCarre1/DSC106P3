@@ -14,7 +14,7 @@
         Data = d3.csvParse(csv, d3.autoType);
         console.log("Data:", Data);
 
-        json(
+        d3.json(
         "https://raw.githubusercontent.com/holtzy/D3-graph-gallery/master/DATA/world.geojson"
         ).then((data) => {
             world = data.features;
