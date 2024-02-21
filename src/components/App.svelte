@@ -1,7 +1,6 @@
 <script>
     import { onMount } from 'svelte';
-    import * as d3 from 'd3-geo';
-    import { geoAlbersUsa } from 'd3-geo-projection';
+    import * as d3 from 'd3';
 
     let svg;
     let data = [];
@@ -25,7 +24,7 @@
             .attr("style", "max-width: 100%; height: auto;")
             .on("click", reset);
 
-        const projection = geoAlbersUsa().scale(1280).translate([width / 2, height / 2]);
+        const projection = d3.geoAlbersUsa().scale(1280).translate([width / 2, height / 2]);
         const path = d3.geoPath(projection);
 
         svg.append("path")
