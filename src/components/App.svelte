@@ -24,7 +24,7 @@
             .attr("style", "max-width: 100%; height: auto;")
             .on("click", reset);
 
-        const projection = d3.geoAlbersUsa().scale(1).translate([width / 2, height / 2]);
+        const projection = d3.geoAlbersUsa().scale(100).translate([width / 2, height / 2]);
         const path = d3.geoPath(projection);
 
         svg.append("path")
