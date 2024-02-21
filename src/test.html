@@ -31,14 +31,17 @@
         margin-bottom: 10px;
     }
     .display-box {
-            position: absolute;
-            background-color: white;
-            border: 1px solid #000000;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            display: none;
-            font-size: 22.5px;
-        }
+    position: fixed;
+    top: 15%;
+    left: 15%;
+    transform: translate(-50%, -50%);
+    background-color: white;
+    border: 1px solid #000000;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    display: none;
+    font-size: 22.5px;
+}
 </style>
 </head>
 
@@ -227,7 +230,7 @@ function updateYear(value){
     let index = Data.findIndex(obj => obj.Country_Code == worldarray[d].id);
     console.log(index);
     country = Data[index];
-    call = 'y'+value
+    call = 'y'+value;
     var lifeExpectancy = country[call]; 
     var name = country.Country_Name;
     var content = "<p>" + name + " Life Expectancy: " + lifeExpectancy + " years</p>";
@@ -237,12 +240,18 @@ function updateYear(value){
     displayBox.innerHTML = content;
 
     // Set the position of the display box relative to the click event
-    displayBox.style.left = event.pageX + "px";
-    displayBox.style.top = event.pageY + "px";
+    displayBox.style.left = event.clientX + "px";
+    displayBox.style.top = event.clientY + "px";
 
     // Show the display box
     displayBox.style.display = "block";
 }
+  document.addEventListener('click', function(event) {
+    var displayBox = document.getElementById("displayBox");
+    if (!event.target.classList.contains("Country")) {
+        displayBox.style.display = "none";
+    }
+});
 }
 updateYear(2021);
 
