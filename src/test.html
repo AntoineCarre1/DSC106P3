@@ -17,8 +17,8 @@
         background-color: white;
         border: 1px solid #000000;
         padding: 30px; /* Increase padding */
-        font-size: 20px; /* Increase font size */
-        width: 400px; /* Increase width */
+        font-size: 24px; /* Increase font size */
+        width: 420px; /* Increase width */
         height: 350px; /* Increase height */
     }
 
@@ -122,7 +122,7 @@ function updateYear(value){
   var data = d3.map();
   var colorScale = d3.scaleThreshold()
     .domain([50, 55, 60, 65, 70, 75, 80, 85, 90, 95])
-    .range(d3.schemeReds[9]);
+    .range(d3.schemePurples[9]);
 
   // Load external data and boot
 
@@ -156,7 +156,7 @@ function updateYear(value){
     for (var i = 0; i < range.length; i++) {
         legend.append("div")
             .style("background-color", range[i])
-            .style("font-size", "25px") 
+            .style("font-size", "30px") 
             .style("height", "35px")
             .html("<span style='font-size: 16px;'>" + domain[i] + "</span> - <span style='font-size: 16px;'>" + domain[i + 1] + "</span>");
     }
@@ -234,12 +234,12 @@ function updateYear(value){
     // Create a div element
     var displayBox = document.getElementById("displayBox");
     displayBox.innerHTML = content;
-    var mouseX = event.pageX; // X-coordinate of the mouse click relative to the entire document
-    var mouseY = event.pageY; // Y-coordinate of the mouse click relative to the entire document
 
-    // Set the position of the display box
-    displayBox.style.left = mouseX + "px";
-    displayBox.style.top = mouseY + "px";
+    // Set the position of the display box relative to the click event
+    displayBox.style.left = event.pageX + "px";
+    displayBox.style.top = event.pageY + "px";
+
+    // Show the display box
     displayBox.style.display = "block";
 }
 }
