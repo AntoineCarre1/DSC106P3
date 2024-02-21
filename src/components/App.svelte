@@ -4,8 +4,8 @@
 
     let svg;
     let Data = [];
-    const width = 2400;
-    const height = 1800;
+    const width = 24000;
+    const height = 18000;
     let world = [];
     onMount(async () => {
         const res = await fetch('API_SP.DYN.LE00.IN_DS2_en_csv_v2_46.csv');
