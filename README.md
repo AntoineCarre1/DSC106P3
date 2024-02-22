@@ -1,34 +1,10 @@
-# create-svelte
+# Project Writeup
 
-## Generate static site using svelte SSG
+## Rationale for Design Decisions
 
-To assist you in creating a static webpage for GitHub Pages using Svelte, we have developed a template for you: [ShaokangJiang/svelte-template (github.com)](https://github.com/ShaokangJiang/svelte-template).
+Our interactive map visualization displays the life expectancy for each country between 1960 and 2021, sourced from data provided by worldbank.org. Utilizing a color scale, the visualization represents life expectancy intervals, with darker shades indicating higher values. Our legend and color scheme are incremented in intervals of 5, because we initially did 10 but it was harder to see differences between countries therefore we decided to make the intervals smaller. We've integrated a slider allowing users to explore life expectancy trends across different years. By clicking on a country, users can retrieve the name of the country along with the corresponding life expectancy age for the selected year. To get rid of the box that contains the name of the country and life expectancy, if a user clicks the background of the map, the box goes away. We decided to add the feature where the box of information only appears when clicked to prevent overcrowding. The placement of the box is on the far left, so that it doesn’t cover any part of the map. As for our choices in the visual encodings, we played around with a lot of colors like blue, red, orange, and purple. We picked purple because we felt that it was bold enough to make differences among the color intervals, and thought it was an easy color on the eyes. We had trouble starting the project since we weren’t extremely comfortable with d3, but the template provided helped us get started. We initially coded everything in html, but then we ran into issues with the slider which was unable to integrate the data from the other years. Therefore, we were wondering if we should change everything to svelte. We tried to transfer everything to svelte but because it was so time consuming we decided to stick to our original html file and somehow managed to make it work by debugging things with the console.
 
-Please follow the link provided, and initiate the creation of a new repository.
+## Development Process
 
-![image-20240210175403813](./assets/image-20240210175403813.png)
+In terms of splitting up work, we would meet a couple times throughout the week to talk about issues that we were running into and the possibility of adding or changing different features. We would split up certain tasks among each other like one person taking a certain aspect (ie. one person figuring out how to draw the map and the other person figuring out how to link the data to the map) and we would work together on problems that we were both facing. We would meet for about 3-4 hours in person to work together and would work on our own separately for 4-5 hours and would gradually meet more closer to the deadline. Overall, this project took our team about 60 hours collectively, because there were only the two of us and we ran into a lot of issues when using the same file and tried to change completely to svelte. Github would often tell us to overwrite files because we would do things separately on our own, therefore we met more in person to prevent this from happening. Getting started was honestly what took us the most time. We had a lot of trouble figuring out where to start and add a map to our html file. Once we got started with the template provided, although we got stuck on the slider for a bit, a lot of the things came easier because we became more familiar with d3, javascript, and html. 
 
-After GitHub completes the cloning process, navigate to the settings page. On the left panel, under the "Pages" tab, locate the "Source" section and select "GitHub Actions" as the source. 
-
-Clone this repository and proceed with your work. Upon completion, commit and push your changes. The corresponding GitHub Actions will then execute, building a static website hosted at `https://your-username.github.io/your-repo-name` for you.
-
-![image-20240210175104365](./assets/image-20240210175104365.png)
-
-### Migrate from your project
-
-If you have started on the project and want to switch to using this template, you can copy your `src` folder, go to the local clone of your version of this template, then paste it. When it says the file exists, simply click replace, and you can continue working on your version of this template.
-
-## Setup
-
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
-
-```bash
-npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
-
-## Building static site
-
-Just push to github. 
